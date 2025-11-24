@@ -12,7 +12,6 @@
       --bg3: #a0b5aa;
       --text: #2f4f4f;
       --card: rgba(255,255,255,0.9);
-
       --border-color: #7fb8a6;
       --border-glow: rgba(110, 190, 160, 0.9);
     }
@@ -22,10 +21,9 @@
       --bg2: #243330;
       --bg3: #1a2825;
       --text: #dce7e2;
-      --card: rgba(35, 45, 43, 0.9);
-
+      --card: rgba(35,45,43,0.9);
       --border-color: #5ea48f;
-      --border-glow: rgba(80, 180, 150, 0.8);
+      --border-glow: rgba(80,180,150,0.8);
     }
 
     body {
@@ -50,12 +48,8 @@
       background: var(--card);
       padding: 20px;
       border-radius: 16px;
-
       border: 3px solid var(--border-color);
-      box-shadow:
-        0 0 15px var(--border-glow),
-        0 0 40px rgba(110, 200, 170, 0.3);
-
+      box-shadow: 0 0 15px var(--border-glow), 0 0 40px rgba(110,200,170,0.3);
       animation: float 4s ease-in-out infinite;
     }
 
@@ -72,7 +66,14 @@
       filter: drop-shadow(0 0 6px rgba(90,170,140,0.9));
     }
 
-    h2 { text-align: center; font-size: 26px; position: relative; color: var(--text); overflow: hidden; }
+    h2 {
+      text-align: center;
+      font-size: 26px;
+      position: relative;
+      overflow: hidden;
+      color: var(--text);
+    }
+
     h2::after {
       content: "";
       position: absolute;
@@ -83,6 +84,7 @@
       background: linear-gradient(120deg,transparent,rgba(255,255,255,0.8),transparent);
       animation: shimmer 3s infinite;
     }
+
     @keyframes shimmer {
       0% { left: -100%; }
       60% { left: 100%; }
@@ -115,14 +117,19 @@
       background: rgba(45,55,52,0.8);
     }
 
-    table, th, td { border: 1px solid #90a79b; }
+    table, th, td {
+      border: 1px solid #90a79b;
+    }
+
     th {
       background: linear-gradient(135deg, #92b9a9, #6b9c89);
       color: #fff;
     }
+
     body.dark th {
       background: linear-gradient(135deg, #2f4942, #4d6f63);
     }
+
     td, th { padding: 6px 8px; }
 
     .flex { display: flex; gap: 20px; }
@@ -146,6 +153,44 @@
     }
 
     .dark-toggle { float: right; margin-bottom: 10px; }
+
+    /* ------------------------------- */
+    /* RESPONSIVE FIX UNTUK HP        */
+    /* ------------------------------- */
+    @media (max-width: 768px) {
+
+      body { padding: 10px; }
+
+      .container {
+        padding: 14px;
+      }
+
+      .flex {
+        flex-direction: column;   /* kolom ke bawah */
+      }
+
+      table {
+        font-size: 13px;
+      }
+
+      td input {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .btn {
+        width: 100%;
+        margin: 6px 0;
+      }
+
+      h2 { font-size: 22px; }
+    }
+
+    @media (max-width: 480px) {
+      table { font-size: 12px; }
+      h2 { font-size: 20px; }
+      .info-box { font-size: 14px; }
+    }
   </style>
 </head>
 
@@ -204,7 +249,6 @@
     </table>
   </div>
 
-  <!-- JS Hitung Slip -->
   <script>
     function generateSlip() {
       let basic = 5625882;
@@ -230,32 +274,12 @@
       window.print();
     }
 
-    function downloadPDF() {
-  const area = document.getElementById("slipArea");
-
-  html2canvas(area, { scale: 2 }).then(canvas => {
-    const imgData = canvas.toDataURL("image/png");
-
-    const { jsPDF } = window.jspdf; // FIX TERPENTING
-    const pdf = new jsPDF('p', 'mm', 'a4');
-
-    let width = pdf.internal.pageSize.getWidth();
-    let height = (canvas.height * width) / canvas.width;
-
-    pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-    pdf.save("Slip_Gaji.pdf");
-  });
-}
-
-
     function toggleDark() {
       document.body.classList.toggle("dark");
     }
   </script>
 
-  <!-- CDN html2canvas & jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 </body>
 </html>
