@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slip Gaji Generator</title>
+
+  <style>
+    :root {
+      --bg1: #dce7e2;
+      --bg2: #b8c7c2;
+      --bg3: #a0b5aa;
+      --text: #2f4f4f;
+      --card: rgba(255,255,255,0.9);
+
+      --border-color: #7fb8a6;
+      --border-glow: rgba(110, 190, 160, 0.9);
+    }
+
+    body.dark {
+      --bg1: #1a2422;
+      --bg2: #243330;
+      --bg3: #1a2825;
+      --text: #dce7e2;
+      --card: rgba(35, 45, 43, 0.9);
+
+      --border-color: #5ea48f;
+      --border-glow: rgba(80, 180, 150, 0.8);
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      background-size: 300% 300%;
+      animation: bgMove 12s ease infinite;
+      margin: 0;
+      padding: 20px;
+      color: var(--text);
+    }
+
+    @keyframes bgMove {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: var(--card);
+      padding: 20px;
+      border-radius: 16px;
+
+      border: 3px solid var(--border-color);
+      box-shadow:
+        0 0 15px var(--border-glow),
+        0 0 40px rgba(110, 200, 170, 0.3);
+
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .logo {
+      display: block;
+      width: 110px;
+      margin: auto;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 0 6px rgba(90,170,140,0.9));
+    }
+
+    h2 { text-align: center; font-size: 26px; position: relative; color: var(--text); overflow: hidden; }
+    h2::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg,transparent,rgba(255,255,255,0.8),transparent);
+      animation: shimmer 3s infinite;
+    }
+    @keyframes shimmer {
+      0% { left: -100%; }
+      60% { left: 100%; }
+      100% { left: 100%; }
+    }
+
+    .info-box {
+      margin: 20px 0;
+      padding: 12px 16px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid #9fbfb9;
+    }
+
+    body.dark .info-box {
+      background: rgba(45,55,52,0.7);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    body.dark table {
+      background: rgba(45,55,52,0.8);
+    }
+
+    table, th, td { border: 1px solid #90a79b; }
+    th {
+      background: linear-gradient(135deg, #92b9a9, #6b9c89);
+      color: #fff;
+    }
+    body.dark th {
+      background: linear-gradient(135deg, #2f4942, #4d6f63);
+    }
+    td, th { padding: 6px 8px; }
+
+    .flex { display: flex; gap: 20px; }
+
+    .btn {
+      background: linear-gradient(135deg, #7fb8a6, #5e9e8b);
+      padding: 10px 18px;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 0 15px rgba(120,170,140,0.7);
+      transition: 0.3s;
+      margin-right: 8px;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(150,200,170,0.9);
+    }
+
+    .dark-toggle { float: right; margin-bottom: 10px; }
+  </style>
+</head>
+
+<body>
+
+  <button class="btn dark-toggle" onclick="toggleDark()">Dark / Light</button>
+
+  <div class="container" id="slipArea">
+
+    <img src="maruichi.png" class="logo">
+    <h2>Slip Gaji Generator</h2>
+
+    <div class="info-box">
+      <b>Nama:</b> Tina<br>
+      <b>NIK:</b> 1043<br>
+      <b>Jabatan:</b> Staff
+    </div>
+
+    <div class="flex">
+      <div style="flex:1">
+        <h3>Pendapatan</h3>
+        <table>
+          <tr><th>Deskripsi</th><th>Jumlah (Rp)</th></tr>
+          <tr><td>Gaji Pokok</td><td>5.625.882</td></tr>
+          <tr><td>Tunjangan Tempat Tinggal</td><td>50.000</td></tr>
+          <tr><td>Tunjangan Kehadiran</td><td>50.000</td></tr>
+          <tr><td>Tunjangan Makan</td><td><input type="number" id="t_makan" value="0"></td></tr>
+          <tr><td>Tunjangan Transportasi</td><td><input type="number" id="t_transport" value="14300"></td></tr>
+          <tr><td>Hari Transportasi</td><td><input type="number" id="transport_day" value="0"></td></tr>
+          <tr><td>Overtime (Jam)</td><td><input type="number" id="ot_hour" value="0"></td></tr>
+          <tr><td>Rate Overtime / Jam</td><td><input type="number" id="ot_rate" value="32808"></td></tr>
+          <tr><td>THR</td><td><input type="number" id="thr" value="0"></td></tr>
+        </table>
+      </div>
+
+      <div style="flex:1">
+        <h3>Potongan</h3>
+        <table>
+          <tr><th>Deskripsi</th><th>Jumlah (Rp)</th></tr>
+          <tr><td>BPJS Kesehatan</td><td>56759</td></tr>
+          <tr><td>JHT</td><td>113518</td></tr>
+          <tr><td>Serikat</td><td>84388</td></tr>
+          <tr><td>Jaminan Pensiun</td><td>56759</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <button class="btn" onclick="generateSlip()">Generate Slip</button>
+    <button class="btn" onclick="printOnly()">Print</button>
+
+    <h3>Hasil Slip</h3>
+    <table>
+      <tr><th>Total Pendapatan</th><td id="total_pendapatan">0</td></tr>
+      <tr><th>Total Potongan</th><td id="total_potongan">0</td></tr>
+      <tr><th>Take Home Pay</th><td id="thp">0</td></tr>
+    </table>
+  </div>
+
+  <!-- JS Hitung Slip -->
+  <script>
+    function generateSlip() {
+      let basic = 5625882;
+      let makan = parseInt(document.getElementById("t_makan").value) || 0;
+      let t_trans = parseInt(document.getElementById("t_transport").value) || 0;
+      let trans_day = parseInt(document.getElementById("transport_day").value) || 0;
+      let ot = parseInt(document.getElementById("ot_hour").value) || 0;
+      let ot_rate = parseInt(document.getElementById("ot_rate").value) || 0;
+      let thr = parseInt(document.getElementById("thr").value) || 0;
+
+      let transport_total = t_trans * trans_day;
+      let overtime_total = ot * ot_rate;
+
+      let pendapatan = basic + 50000 + 50000 + makan + transport_total + overtime_total + thr;
+      let potongan = 56759 + 113518 + 84388 + 56759;
+
+      document.getElementById("total_pendapatan").innerText = pendapatan.toLocaleString("id-ID");
+      document.getElementById("total_potongan").innerText = potongan.toLocaleString("id-ID");
+      document.getElementById("thp").innerText = (pendapatan - potongan).toLocaleString("id-ID");
+    }
+
+    function printOnly() {
+      window.print();
+    }
+
+    function downloadPDF() {
+  const area = document.getElementById("slipArea");
+
+  html2canvas(area, { scale: 2 }).then(canvas => {
+    const imgData = canvas.toDataURL("image/png");
+
+    const { jsPDF } = window.jspdf; // FIX TERPENTING
+    const pdf = new jsPDF('p', 'mm', 'a4');
+
+    let width = pdf.internal.pageSize.getWidth();
+    let height = (canvas.height * width) / canvas.width;
+
+    pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+    pdf.save("Slip_Gaji.pdf");
+  });
+}
+
+
+    function toggleDark() {
+      document.body.classList.toggle("dark");
+    }
+  </script>
+
+  <!-- CDN html2canvas & jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</body>
+</html>
